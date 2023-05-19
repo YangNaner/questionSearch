@@ -28,11 +28,14 @@ public class indexController {
     @GetMapping("/select/{question}")
     @ResponseBody
     public Result select(@PathVariable("question") String question){
+//        调用Service接口，执行SQL语句，并返回列表
         List<Question> questions = questionService.selectByQuestionInfo(question);
 //        System.out.println("questions = " + questions);
+//        判断是否查询成功，如果questions列表为 0 则查询失败。
         if (questions.size() == 0){
             return ResultGenerator.genFailResult("查询失败");
         }
+//        并使用响应结果工具类封装，按格式返回Json字符串供前端处理。
         return ResultGenerator.genSuccessResult(questions);
     }
 

@@ -2,10 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.yn.dao.QuestionMapper">
 
+<!--    SQL片段，通过提前声明SQL片段，来提高代码复用性-->
     <sql id="Base_Column_List">
         id, type, info, answer, select_1, select_2, select_3, select_4, select_5, select_6
     </sql>
 
+<!--    select 查询SQL语句，使用CONCAT来进行模糊查询，这个方法是MyBatis特有的写法，对于MySQL来说，模糊搜索不需要CONCAT方法-->
     <select id="selectByQuestionInfo" resultType="top.yn.entity.Question">
         SELECT
         <include refid="Base_Column_List"/>
