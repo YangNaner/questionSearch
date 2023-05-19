@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.yn.dao.QuestionMapper">
+
+    <sql id="Base_Column_List">
+        id, type, info, answer, select_1, select_2, select_3, select_4, select_5, select_6
+    </sql>
+
+    <select id="selectByQuestionInfo" resultType="top.yn.entity.Question">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM bb_question
+        WHERE info
+        LIKE CONCAT('%', #{question}, '%')
+    </select>
+</mapper>

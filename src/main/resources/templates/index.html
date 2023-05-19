@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>勇勇查题小助手</title>
+    <script src="/js/vue.js"></script>
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="/js/elementui.js"></script>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/elementui.css">
+</head>
+<body>
+<div id="app">
+    <div class="container">
+        <h2>勇勇查题小助手</h2>
+    </div>
+    <!--    添加一个搜索用的输入框-->
+    <div class="container">
+        <el-input type="textarea" v-model="question" placeholder="请输入关键字" size="large" style="width:90%" @keyup.enter.native="search"></el-input>
+    </div>
+    <!--    搜索按钮-->
+    <br>
+    <br>
+    <div class="container">
+        <el-button type="primary" @click="search">搜索</el-button>
+        <!--    清空按钮-->
+        <el-button type="danger" @click="clean">清空</el-button>
+    </div>
+
+    <div v-if="result">
+        <h2>搜索结果：</h2>
+        <ul>
+            <li v-for="item in result.data" v-bind:key="item.id">
+                <h2>{{ item.info }}</h2>
+                <h3>答案：{{ item.answer }}</h3>
+                <p v-for="key in ['select_1', 'select_2', 'select_3', 'select_4', 'select_5', 'select_6']"
+                   v-if="item[key]">{{ key }}：{{ item[key] }}</p>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: {
+            question: "",
+            result: null,
+        },
+        methods: {
+            search: function () {
+                var self = this;
+                $.get("/select/" + self.question, function (data) {
+                    if (data.message === "查询失败") {
+                        alert("查询失败");
+                        //    清空输入框
+                        self.question = "";
+                    } else {
+                        self.result = data;
+                    }
+                });
+            },
+            clean: function () {
+                this.question = "";
+                this.result = null;
+            }
+        },
+    });
+</script>
+</body>
+</html>
